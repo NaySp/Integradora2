@@ -29,6 +29,10 @@ public class Controller {
         }
     }
 
+    public List<Product> getProductList() {
+        return productList;
+    }
+
     
 }
 
