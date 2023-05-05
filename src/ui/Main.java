@@ -57,6 +57,7 @@ public class Main{
         System.out.println("1. Register Product \n" +
                 "2. Create order\n" +
                 "3. Find a product\n" +
+                "4. Find order \n" +
                 "0. Salir");
         System.out.print("option -> ");
 
@@ -156,10 +157,47 @@ public class Main{
     }
 
     public void findProduct(){
-        System.out.println("Type the name of the product u r looking for: ");
-        String productName = reader.next();
-        System.out.println(controller.validateProduct(productName));
+
+        System.out.println("Type by which characteristic you want to search for a product: \n1. Name  \n2. Price  \n3. Category   \n4. Number of times purchased. \n0. Exit.");
+        System.out.print("-> option: ");
+        int opt = validateIntegerInput();
+
+        switch(opt){
+
+            case 1:
+                System.out.println("Type the name of the product u r looking for: ");
+                String productName = reader.next();
+                System.out.println(controller.validateProductByName(productName));
+            break;
+
+            case 2:
+                System.out.println("Type the price at which you would like to find a product");
+                double price = validateDouble();
+                System.out.println(controller.validateProductByPrice(price));
+            break;
+
+            case 3:
+                System.out.println("Type the category u r looking for: ");
+                String category = reader.next();
+                System.out.println(controller.validateProductByCategory(category));
+            break;
+
+            case 4:
+                System.out.println("Enter the number of units for which you want to search for a product");
+                int timeSold = validateIntegerInput();
+                System.out.println(controller.validateProductByTimePurchased(timeSold));
+            break;
+
+            case 0: System.out.println("Exit");
+                break;
+
+            default: System.out.println("Invalid Option, try again :c ");
+
+        }
     }
+
+
+
 
     
     
