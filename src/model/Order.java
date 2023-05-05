@@ -1,25 +1,27 @@
 package model;
-import java.util.Date;
-
+import java.time.LocalTime;
+import java.util.List;
+import java.time.LocalTime;
+import java.util.Locale;
 
 public class Order {
 
     private String buyerName;
-    private String productName;
+    private List<Product> productList;
     private int quantity;
     private double total;
-    private Date date;
+    private LocalTime date;
     
-    public Order(String buyerName, String productName, int quantity, double total, Date date) {
+    public Order(String buyerName, List<Product> productList, int quantity) {
         this.buyerName = buyerName;
-        this.productName = productName;
+        this.productList = productList;
         this.quantity = quantity;
         this.total = total;
-        this.date = date;
+        date = LocalTime.now();
     }
 
-    
-    
+
+
     // getters and setters for all attributes
     public String getBuyerName() {
         return buyerName;
@@ -27,14 +29,6 @@ public class Order {
     
     public void setBuyerName(String buyerName) {
         this.buyerName = buyerName;
-    }
-    
-    public String getProductName() {
-        return productName;
-    }
-    
-    public void setProductName(String productName) {
-        this.productName = productName;
     }
     
     public int getQuantity() {
@@ -52,12 +46,21 @@ public class Order {
     public void setTotal(double total) {
         this.total = total;
     }
-    
-    public Date getDate() {
+
+
+    public LocalTime getDate() {
         return date;
     }
-    
-    public void setDate(Date date) {
+
+    public void setDate(LocalTime date) {
         this.date = date;
+    }
+
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
     }
 }

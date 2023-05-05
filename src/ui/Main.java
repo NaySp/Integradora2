@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import model.Controller;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -67,7 +69,12 @@ public class Main{
             case 1: addProduct();
             break;
 
-            
+            case 2: registerOrder();
+            break;
+
+            case 3: findProduct();
+            break;
+
             case 0: System.out.println("Exit");
             break;
         
@@ -133,7 +140,26 @@ public class Main{
         
     }
 
+    public void registerOrder(){
 
+        System.out.println("Type ur name ;) ");
+        String buyerName = reader.next();
+        System.out.println("Type the product u wanna add: ");
+        String productName = reader.next();
+        System.out.println("Finally, type how much of this product u want: ");
+        int quantity = validateIntegerInput();
+
+        controller.registerOrder(buyerName, Arrays.asList(productName), quantity);
+
+        //** Arrays.asList() es una forma rápida de
+        // inicializar una lista en Java utilizando un conjunto fijo de elementos.//
+    }
+
+    public void findProduct(){
+        System.out.println("Type the name of the product u r looking for: ");
+        String productName = reader.next();
+        System.out.println(controller.validateProduct(productName));
+    }
 
     
     
