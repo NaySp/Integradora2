@@ -66,24 +66,29 @@ public class Main{
     public void executeOption(int option){
         
         switch(option){
-        
-            case 1: addProduct();
-            addProduct();
-            break;
 
-            case 2: registerOrder();
-            registerOrder();
-            break;
-
-            case 3: findProduct();
-            findProduct();
+            case 1:
+                addProduct();
 
             break;
 
-            case 0: System.out.println("Exit");
+            case 2:
+                registerOrder();
+
             break;
-        
-            default: System.out.println("Invalid Option, try again :c ");
+
+            case 3:
+                findProduct();
+
+
+            break;
+
+            case 0:
+                System.out.println("Exit");
+            break;
+
+            default:
+                System.out.println("Invalid Option, try again :c ");
 
         }
 
