@@ -1,4 +1,6 @@
 package model;
+import exception.EqualProductException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +15,20 @@ public class Controller {
         orders = new ArrayList<>();
     }
 
-    public void registerProduct(String name, String description, double price, String category, int numSales) // trhows sameProductException
-    {
-        try { // el try catch no va acá ...
-            // Check if the product name already exists
+    public void rProduct(String name, String description, double price, String category, int numSales){
+        try{
+            registerProduct(name, description, price, category, numSales);
+        }catch(EqualProductException ep){
+            ep.getMessage();
+            ep.getStackTrace();
+        }
+    }
+
+    private void registerProduct(String name, String description, double price, String category, int numSales) throws EqualProductException{
             for (Product p : productList) {
                 if (p.getName().equals(name)) {
                     // Esto debería ser una excepción propia: sameProductException
-                    throw new Exception("A product with the same name already exists.");
+                    throw new EqualProductException("A product with the same name already exists.");
                 }
             }
             // Create a new Product object and add it to the list
@@ -28,9 +36,7 @@ public class Controller {
             productList.add(newProduct);
             // nicolas dice que no imprimas nada en el modelo ...
             System.out.println("Product registered successfully.");
-        } catch (Exception e) {
-            System.out.println("Error registering product: " + e.getMessage());
-        }
+
     }
 
     public void registerOrder(String buyerName, List<String> listProduct, int amount) {

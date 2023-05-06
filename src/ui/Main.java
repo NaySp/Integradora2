@@ -68,12 +68,16 @@ public class Main{
         switch(option){
         
             case 1: addProduct();
+            addProduct();
             break;
 
             case 2: registerOrder();
+            registerOrder();
             break;
 
             case 3: findProduct();
+            findProduct();
+
             break;
 
             case 0: System.out.println("Exit");
@@ -134,7 +138,7 @@ public class Main{
             } else if (price <= 0 || numSales <= 0) {
                 System.out.println("Price and quantity must be greater than zero. Please try again.");
             } else {
-                controller.registerProduct(name, productName, price, category, numSales);
+                controller.rProduct(name, productName, price, category, numSales);
                 datosCorrectos = true;
             }
         } while (!datosCorrectos);
