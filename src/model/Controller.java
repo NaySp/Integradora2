@@ -7,10 +7,8 @@ import exception.InvalidNameException;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Controller {
     
@@ -103,25 +101,79 @@ public class Controller {
 
 
     public String validateProductByName(String productName) {
-
-        String msj;
+        ArrayList<String> productNames = new ArrayList<String>();
         for (Product p : productList) {
-            if (p.getName().equalsIgnoreCase(productName)) {
-                msj = "The product " + p.getName() + " exits ;) \n" + "There are: " + p.getNumSales() + " units \n" + "Belongs to the category: " + p.getCategory() + "\nFor onlyyy: " + p.getPrice();
-                return msj; // Product with the same name exists
+            productNames.add(p.getName().toLowerCase());
+        }
+
+        int index = binarySearchStrings(productNames, productName.toLowerCase());
+
+        if (index != -1) {
+            Product p = productList.get(index);
+            return "The product " + p.getName() + " exists ;) \n" + "There are: " + p.getNumSales() + " units \n" + "Belongs to the category: " + p.getCategory() + "\nFor onlyyy: " + p.getPrice();
+        } else {
+            return "The product " + productName + " doesn't exist :c";
+        }
+    }
+
+
+
+    private int binarySearchStrings(ArrayList<String> arr, String goal) {
+        int left = 0;
+        int right = arr.size() - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            int cmp = goal.compareToIgnoreCase(arr.get(mid));
+
+            if (cmp == 0) {
+                return mid;
+            } else if (cmp < 0) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
             }
         }
-        msj =  msj = "The product " + productName + " doesn't exist :c  ";
-        return msj; // Product with the same name does not exist
+
+        return -1;
     }
+
+
 
     public String validateProductByPrice(double price) {
         List<String> productNames = new ArrayList<>();
-        for (Product p : productList) {
-            if (p.getPrice() == price) {
-                productNames.add(p.getName());
+
+        // Ordenamos la lista de productos por precio para usar búsqueda binaria
+        Collections.sort(productList, new Comparator<Product>() {
+            public int compare(Product p1, Product p2) {
+                return Double.compare(p1.getPrice(), p2.getPrice());
+            }
+        });
+
+        // Buscamos el precio en la lista ordenada usando búsqueda binaria
+        int index = binarySearchDouble(productList.stream().map(Product::getPrice).collect(Collectors.toCollection(ArrayList::new)), price);
+        if (index != -1) {
+            // Recorremos los productos desde el índice encontrado hacia abajo
+            for (int i = index; i >= 0; i--) {
+                Product p = productList.get(i);
+                if (p.getPrice() == price) {
+                    productNames.add(p.getName());
+                } else {
+                    break; // Salimos del loop si ya no encontramos más productos con ese precio
+                }
+            }
+
+            // Recorremos los productos desde el índice encontrado hacia arriba
+            for (int i = index + 1; i < productList.size(); i++) {
+                Product p = productList.get(i);
+                if (p.getPrice() == price) {
+                    productNames.add(p.getName());
+                } else {
+                    break; // Salimos del loop si ya no encontramos más productos con ese precio
+                }
             }
         }
+
         if (productNames.isEmpty()) {
             return "There aren't products by " + price;
         } else {
@@ -130,34 +182,133 @@ public class Controller {
     }
 
 
-    public String validateProductByCategory(String category) {
-        List<String> productNames = new ArrayList<>();
-        for (Product p : productList) {
-            if (p.getCategory().equalsIgnoreCase(category)) {
-                productNames.add(p.getName());
+    static int binarySearchDouble(ArrayList<Double> arr, double goal){
+        int left = 0;
+        int right = arr.size() - 1;
+
+        while(left <= right){
+            int mid = (right + left)/2;
+            if(goal < arr.get(mid)){
+                right = mid - 1;
+            }
+            else if(goal > arr.get(mid)){
+                left = mid + 1;
+            }
+            else {
+                return mid;
             }
         }
-        if (productNames.isEmpty()) {
+
+        return -1;
+    }
+
+
+
+
+    public String validateProductByCategory(String category) {
+        // Ordenamos la lista de productos por nombre de categoría
+        Collections.sort(productList, Comparator.comparing(Product::getCategory));
+
+        // Buscamos el índice del primer producto que pertenece a la categoría dada
+        int index = binarySearch(productList, category);
+        if (index == -1) {
             return "There aren't products by the category: " + category;
         } else {
+            // Creamos una lista auxiliar con los nombres de los productos
+            List<String> productNames = new ArrayList<>();
+            productNames.add(productList.get(index).getName());
+            int i = index - 1;
+            while (i >= 0 && productList.get(i).getCategory().equalsIgnoreCase(category)) {
+                productNames.add(0, productList.get(i).getName());
+                i--;
+            }
+            i = index + 1;
+            while (i < productList.size() && productList.get(i).getCategory().equalsIgnoreCase(category)) {
+                productNames.add(productList.get(i).getName());
+                i++;
+            }
+
             return "The following products belong to the category " + category + ":\n" + String.join("\n", productNames);
         }
     }
 
 
-    public String validateProductByTimePurchased(int timeSold) {
-        List<String> productNames = new ArrayList<>();
-        for (Product p : productList) {
-            if (p.getNumSales() == timeSold) {
-                productNames.add(p.getName());
+
+    static int binarySearch(List<Product> arr, String goal) {
+        int left = 0; // obtenemos una referencia al puntero inicial
+        int right = arr.size() - 1; // obtenemos una referencia al puntero final
+
+        while (left <= right) { // repetimos el siclo mientras estemos en el rango del arreglo
+            // calculamos el punto medio del arreglo
+            int mid = (right + left) / 2; // mid = left + (right - left)/2;
+
+            // comparamos el elemento central con el valor objetivo
+            if (goal.compareToIgnoreCase(arr.get(mid).getCategory()) < 0) {
+                right = mid - 1;
+            } else if (goal.compareToIgnoreCase(arr.get(mid).getCategory()) > 0) {
+                left = mid + 1;
+            }
+            // si lo encontramos retornamos el elemento
+            else {
+                return mid;
             }
         }
-        if (productNames.isEmpty()) {
+
+        // si no retornamos -1
+        return -1;
+    }
+
+
+
+
+    public String validateProductByTimePurchased(int timeSold) {
+        Collections.sort(productList, Comparator.comparing(Product::getNumSales));
+
+        List<String> productNames = new ArrayList<>();
+        int index = binarySearchDate(productList, timeSold);
+
+        if (index == -1) {
             return "There are not that number of units in any product";
         } else {
+            productNames.add(productList.get(index).getName());
+
+            // Buscamos productos con el mismo número de unidades vendidas hacia la izquierda del índice encontrado
+            int i = index - 1;
+            while (i >= 0 && productList.get(i).getNumSales() == timeSold) {
+                productNames.add(productList.get(i).getName());
+                i--;
+            }
+
+            // Buscamos productos con el mismo número de unidades vendidas hacia la derecha del índice encontrado
+            i = index + 1;
+            while (i < productList.size() && productList.get(i).getNumSales() == timeSold) {
+                productNames.add(productList.get(i).getName());
+                i++;
+            }
+
             return "The following products haven't been sold and " + timeSold + " units exists:\n" + String.join("\n", productNames);
         }
     }
+
+
+    static int binarySearchDate(List<Product> productList, int goal) {
+        int left = 0;
+        int right = productList.size() - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (productList.get(mid).getNumSales() < goal) {
+                left = mid + 1;
+            } else if (productList.get(mid).getNumSales() > goal) {
+                right = mid - 1;
+            } else {
+                return mid;
+            }
+        }
+
+        return -1;
+    }
+
 
     //** */
     public void readData() {
