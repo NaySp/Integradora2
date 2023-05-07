@@ -77,7 +77,7 @@ public class Controller {
             }
 
             // Create a new Order object and add it to the list of orders
-            Order newOrder = new Order(buyerName, products, totalPrice, LocalDate.now());
+            Order newOrder = new Order(buyerName, products, totalPrice, LocalDate.now().toString());
             orders.add(newOrder);
             System.out.println("Order registered successfully.");
 

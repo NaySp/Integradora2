@@ -1,11 +1,6 @@
 package ui;
 
-import com.google.gson.Gson;
 import model.Controller;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -65,13 +60,13 @@ public class Main {
                 break;
 
             case 2:
-                registerOrder();
+                //* registerOrder();
 
 
                 break;
 
             case 3:
-                findProduct();
+                //* findProduct();
 
 
                 break;
@@ -110,7 +105,6 @@ public class Main {
         return option;
     }
 
-
     public void addProduct(){
         int numSales = 0;
 
@@ -139,10 +133,10 @@ public class Main {
                         "3. Ropa y accesorios \n" +
                         "4. Alimentos y bebidas \n" +
                         "5. Papelería \n" +
-                        "6.Deportes \n" +
+                        "6. Deportes \n" +
                         "7. Productos de belleza y cuidado personal \n" +
-                        "8. Juguetes y juegos \n" +
-                        "Option: ");
+                        "8. Juguetes y juegos \n");
+                System.out.print("Option -> ");
                 int category = reader.nextInt();
                 if(category < 0 && category > 9){
                     System.out.println("Choose a valid category");
@@ -192,8 +186,12 @@ public class Main {
                 }
             }
 
+        } while (!datosCorrectos);
 
-    public void registerOrder(){
+    }
+
+    /*
+    public void registerOrder() {
         List<Product> products = new ArrayList<>();
         System.out.println("Type your name: ");
         String buyerName = reader.next();
@@ -220,7 +218,7 @@ public class Main {
         controller.registerOrder(buyerName, products);
     }
 
-    public void findProduct(){
+    public void findProduct() {
 
         System.out.println("Type by which characteristic you want to search for a product: \n1. Name  \n2. Price  \n3. Category   \n4. Number of times purchased. \n0. Exit.");
         System.out.print("-> option: ");
@@ -258,11 +256,11 @@ public class Main {
             default: System.out.println("Invalid Option, try again :c ");
 
         }
-    }
+    }*/
 
 
 
 
-    
-    
+
+
 }

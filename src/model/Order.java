@@ -11,12 +11,12 @@ public class Order {
     private double totalPrice;
     private String orderDate;
 
+
     public Order(String buyerName, List<Product> products, double totalPrice, String orderDate) {
         this.buyerName = buyerName;
-        this.productList = productList;
-        this.quantity = quantity;
-        this.total = total;
-        this.orderDate = LocalTime.now().Tostring();
+        this.products = products;
+        this.totalPrice = totalPrice;
+        this.orderDate = LocalTime.now().toString();
     }
 
     public String getBuyerName() {
