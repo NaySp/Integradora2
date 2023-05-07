@@ -16,18 +16,18 @@ public class RegisterProductTest {
     @Test
     public void testRegisterProduct() {
         // Test adding a new product
-        productRegistration.rProduct("Terrenaitor", "Terranaitor el coche mas poderoso que ha existido con traccion 4x4 y dos turbo motores. Este si es todo terreno, las calles son faciles, metelo al lodo, pasa por la nieve, pasa por el agua. Terrenaitor es el mas potente que haya existido ", 29.95, "Juguetes y juegos", 30);
+        productRegistration.rProduct("Product 1", "Description 1", 10.99, "Category 1", 0);
         assertEquals(1, productRegistration.getProductList().size());
     }
 
     @Test(expected = Exception.class)
     public void testRegisterProductWithDuplicateName() throws Exception {
         // Add the first product
-        productRegistration.rProduct("Heladeria Kreisel Supra", "Heladeria kreisel supra hace helados en minutossssss", 22.07, "Juguetes y juegos", 20);
+        productRegistration.rProduct("Product1", "Description 1", 10.99, "Category 1", 0);
 
         // Try to add a product with the same name
         try {
-            productRegistration.rProduct("Heladeria Kreisel Supra", "La tienda", 100000.99, "Alimentos y Bebidas", 1);
+            productRegistration.rProduct("Product1", "Description 2", 9.99, "Category 2", 0);
             //fail("Expected an Exception to be thrown");
 
         } catch (Exception e) {

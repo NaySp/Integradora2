@@ -1,11 +1,7 @@
 package ui;
 
-import com.google.gson.Gson;
 import model.Controller;
-
-import java.io.File;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -28,27 +24,18 @@ public class Main{
 
         Main view = new Main(); // la llamada al constructor de la clase
 
-        Gson gson = new Gson();
-        File projectDir = new File(System.getProperty("user.dir"));
-        File dataDirectory = new File(projectDir+"/data");
-        File result = new File(projectDir+"/data/result.json");
+        view.controller.readData();
 
-        if(!dataDirectory.exists()){
-            dataDirectory.mkdirs();
-            System.out.println(dataDirectory.exists());
-        }
-
-
-
-        int option = 0; 
+        int option = 0;
 
         do{
-            view.menu(); 
-            option = view.validateIntegerInput(); 
+            view.menu();
+            option = view.validateIntegerInput();
             view.executeOption(option);
 
         }while(option != 0);
         view.reader.close();
+        view.controller.saveData();
 
     }
 
@@ -66,29 +53,26 @@ public class Main{
     public void executeOption(int option){
         
         switch(option){
-
-            case 1:
-                addProduct();
-
-            break;
-
-            case 2:
-                registerOrder();
-
-            break;
-
-            case 3:
-                findProduct();
+        
+            case 1: addProduct();
 
 
             break;
 
-            case 0:
-                System.out.println("Exit");
+            case 2: registerOrder();
+
+
             break;
 
-            default:
-                System.out.println("Invalid Option, try again :c ");
+            case 3: findProduct();
+
+
+            break;
+
+            case 0: System.out.println("Exit");
+            break;
+        
+            default: System.out.println("Invalid Option, try again :c ");
 
         }
 
@@ -121,7 +105,6 @@ public class Main{
 
 
     public void addProduct(){
-        int numSales = 0;
 
         boolean datosCorrectos = false;
 
@@ -134,73 +117,19 @@ public class Main{
             reader.nextLine();
             System.out.println("Type the price of the product: ");
             double price = validateDouble();
-            System.out.println("Type the quantity of this product: ");
-            numSales = validateIntegerInput();
+            System.out.println("Type a category: ");
+            String category = reader.next();
+            System.out.println("Finally, type the quantity of this product: ");
+            int numSales = validateIntegerInput();
 
-            if (name.isEmpty() || productName.isEmpty() ) {
+            if (name.isEmpty() || productName.isEmpty() || category.isEmpty()) {
                 System.out.println("You must enter a value for all fields. Please try again.");
             } else if (price <= 0 || numSales <= 0) {
                 System.out.println("Price and quantity must be greater than zero. Please try again.");
             } else {
-                System.out.println("Choose a category: \n" +
-                        "1. Libros \n" +
-                        "2. Electrónica \n" +
-                        "3. Ropa y accesorios \n" +
-                        "4. Alimentos y bebidas \n" +
-                        "5. Papelería \n" +
-                        "6.Deportes \n" +
-                        "7. Productos de belleza y cuidado personal \n" +
-                        "8. Juguetes y juegos \n" +
-                        "Option: ");
-                int category = reader.nextInt();
-                if(category < 0 && category > 9){
-                    System.out.println("Choose a valid category");
-                }else {
-                    switch (category) {
-
-                        case 1://Libros
-                            controller.rProduct(name, productName, price, "Libros", numSales);
-                            datosCorrectos = true;
-                            break;
-
-                        case 2://Electronica
-                            controller.rProduct(name, productName, price, "Electronica", numSales);
-                            datosCorrectos = true;
-
-                            break;
-                        case 3://Ropa y accesorios
-                            controller.rProduct(name, productName, price, "Ropa y accesorios", numSales);
-                            datosCorrectos = true;
-                            break;
-
-                        case 4://Alimentos y bebidas
-                            controller.rProduct(name, productName, price, "Alimentos y bebidas", numSales);
-                            datosCorrectos = true;
-                            break;
-
-                        case 5://Papeleria
-                            controller.rProduct(name, productName, price, "Papeleria", numSales);
-                            datosCorrectos = true;
-                            break;
-
-                        case 7://Deportes
-                            controller.rProduct(name, productName, price, "Deportes", numSales);
-                            datosCorrectos = true;
-                            break;
-
-                        case 8://Productos de belleza y cuidado personal
-                            controller.rProduct(name, productName, price, "Productos de belleza y cuidado personal", numSales);
-                            datosCorrectos = true;
-                            break;
-                        case 9:// Juguetes y juegos
-                            controller.rProduct(name, productName, price, "Juguetes y juegos", numSales);
-                            datosCorrectos = true;
-
-                            break;
-                    }
-                }
+                controller.rProduct(name, productName, price, category, numSales);
+                datosCorrectos = true;
             }
-
         } while (!datosCorrectos);
         
     }

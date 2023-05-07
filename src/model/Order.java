@@ -1,8 +1,7 @@
 package model;
 import java.time.LocalTime;
 import java.util.List;
-import java.time.LocalTime;
-import java.util.Locale;
+
 
 public class Order {
 
@@ -10,14 +9,17 @@ public class Order {
     private List<Product> productList;
     private int quantity;
     private double total;
-    private LocalTime date;
+    private String date;  //** Se modificó el localTime.now() y al momento de importarlo
+    // donde vayamos a importarlo sería tipo LocalDate.now.toString() porque sino el gson genera
+    // conflicto con las fechas. */
     
     public Order(String buyerName, List<Product> productList, int quantity) {
         this.buyerName = buyerName;
         this.productList = productList;
         this.quantity = quantity;
+
         this.total = total;
-        date = LocalTime.now();
+        this.date = date;
     }
 
 
@@ -47,14 +49,10 @@ public class Order {
         this.total = total;
     }
 
+    public String getDate(){return date;}
 
-    public LocalTime getDate() {
-        return date;
-    }
+    public void setDate(String date){this.date = date;}
 
-    public void setDate(LocalTime date) {
-        this.date = date;
-    }
 
     public List<Product> getProductList() {
         return productList;

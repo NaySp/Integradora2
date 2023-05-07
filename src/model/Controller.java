@@ -1,13 +1,19 @@
 package model;
+import com.google.gson.Gson;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import exception.EqualProductException;
 
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Controller {
     
     private List<Product> productList;
     private List<Order> orders;
+
 
 
     public Controller(){
@@ -136,6 +142,83 @@ public class Controller {
         }
     }
 
+    //** */
+    public void readData() {
+
+        String msj = "File loaded. ";
+        Gson gson = new Gson();
+
+        File projectDir = new File(System.getProperty("user.dir"));
+        File dataDirectory = new File(projectDir+"/data");
+        File products = new File(projectDir+"/data/products.json");
+        File orders = new File(projectDir+"/data/orders.json");
+
+        if (!dataDirectory.exists()) {
+            dataDirectory.mkdirs();
+            return;
+        }
+
+        if ( !products.exists() || !orders.exists() ) return;
+
+        try {
+            FileInputStream pro = new FileInputStream(products);
+            FileInputStream ord = new FileInputStream(orders);
+            BufferedReader proReader = new BufferedReader(new InputStreamReader(pro));
+            BufferedReader ordReader = new BufferedReader(new InputStreamReader(ord));
+            // Lee el archivo línea por línea
+            String line;
+            String json = "";
+            while ((line = proReader.readLine()) != null) {
+                json += line;
+            }
+            // Deserializa el contenido JSON
+            Product [] jsonProducts = gson.fromJson(json, Product[].class);
+            this.productList.addAll(Arrays.asList(jsonProducts));
+
+
+            json = "";
+            while ((line = ordReader.readLine()) != null) {
+                json += line;
+            }
+            Order[] jsonOrders = gson.fromJson(json, Order[].class);
+            this.orders.addAll(Arrays.asList(jsonOrders));
+
+        } catch (JsonSyntaxException | JsonIOException | IOException e) {
+            System.out.println("Error al leer el archivo JSON: " + e.getMessage());
+        }
+
+    }
+
+    public String saveData() {
+
+        String msj = "Data saved. ";
+        Gson gson = new Gson();
+
+        File projectDir = new File(System.getProperty("user.dir"));
+        File dataDirectory = new File(projectDir+"/data");
+        File productsFile = new File(projectDir+"/data/products.json");
+        File ordersFile = new File(projectDir+"/data/orders.json");
+
+        if (!dataDirectory.exists()) {
+            dataDirectory.mkdirs();
+        }
+
+        try {
+            FileWriter productsWriter = new FileWriter(productsFile);
+            gson.toJson(productList.toArray(), productsWriter);
+            productsWriter.close();
+
+            FileWriter ordersWriter = new FileWriter(ordersFile);
+            gson.toJson(orders.toArray(), ordersWriter);
+            ordersWriter.close();
+
+        } catch (JsonIOException | IOException e) {
+            msj = "Error al guardar los datos en archivos JSON: " + e.getMessage();
+            return msj;
+        }
+
+        return msj;
+    }
 
 
     public List<Product> getProductList() {
