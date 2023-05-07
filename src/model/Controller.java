@@ -47,7 +47,7 @@ public class Controller {
 
     }
 
-    public void registerOrder(String buyerName, List<Product> products) {
+    public void registerOrder(String buyerName, List<Product> products, int quantity,int increaseAmount) {
 
         try {
             // Check if any of the product names are invalid
@@ -77,7 +77,7 @@ public class Controller {
             }
 
             // Create a new Order object and add it to the list of orders
-            Order newOrder = new Order(buyerName, products, totalPrice, LocalDate.now().toString());
+            Order newOrder = new Order(buyerName, products,quantity, totalPrice, LocalDate.now().toString());
             orders.add(newOrder);
             System.out.println("Order registered successfully.");
 
