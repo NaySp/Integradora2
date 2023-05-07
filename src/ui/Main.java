@@ -70,8 +70,12 @@ public class Main {
                 break;
 
             case 3:
-                //* findProduct();
+                findProduct();
 
+
+                break;
+
+            case 4:
 
                 break;
 
@@ -221,7 +225,7 @@ public class Main {
             }
         }
 
-        controller.registerOrder(buyerName, products, quantity, increaseAmount);
+        controller.rOrder(buyerName, products, quantity, increaseAmount);
     }
 
     public void findProduct() {

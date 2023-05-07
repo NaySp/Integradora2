@@ -3,6 +3,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import exception.EqualProductException;
+import exception.InvalidNameException;
 
 import java.io.*;
 import java.time.LocalDate;
@@ -27,7 +28,7 @@ public class Controller {
         try{
             registerProduct(name, description, price, category, numSales);
         }catch(EqualProductException ep){
-            ep.getMessage();
+            ep.getMsg();
             ep.getStackTrace();
         }
     }
@@ -47,10 +48,18 @@ public class Controller {
 
     }
 
-    public void registerOrder(String buyerName, List<Product> products, int quantity,int increaseAmount) {
+    public void rOrder(String buyerName, List<Product> products, int quantity, int increaseAmount){
+        try{
+            registerOrder(buyerName, products,quantity,increaseAmount);
+        }catch(InvalidNameException ie){
+            ie.getMsg();
+            ie.getStackTrace();
+        }
+    }
 
-        try {
-            // Check if any of the product names are invalid
+    private void registerOrder(String buyerName, List<Product> products, int quantity,int increaseAmount) throws InvalidNameException {
+
+
             for (Product p : products) {
                 boolean validName = false;
                 for (Product inventoryProduct : productList) {
@@ -59,10 +68,9 @@ public class Controller {
                         break;
                     }
                 }
-                if (!validName) {
-                    throw new Exception("Invalid product name: " + p.getName());
+
                 }
-            }
+
 
             // Calculate the total price of the order and update the inventory
             double totalPrice = 0;
@@ -71,7 +79,11 @@ public class Controller {
                     if (inventoryProduct.getName().equals(p.getName())) {
                         totalPrice += p.getNumSales() * inventoryProduct.getPrice();
                         int decreaseAmount = quantity - increaseAmount;
-                        p.decreaseAmount(decreaseAmount);// Decrease the quantity of the product in inventory
+                        try {
+                            p.decreaseAmount(decreaseAmount);// Decrease the quantity of the product in inventory
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
                         break;
                     }
                 }
@@ -82,9 +94,6 @@ public class Controller {
             orders.add(newOrder);
             System.out.println("Order registered successfully.");
 
-        } catch (Exception e) {
-            System.out.println("Error registering order: " + e.getMessage());
-        }
     }
 
 
