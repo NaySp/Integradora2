@@ -309,6 +309,40 @@ public class Controller {
         return -1;
     }
 
+    public String validateOrderByBuyerName(String buyerName) {
+        ArrayList<String> buyerNames = new ArrayList<String>();
+        for (Order o : orders) {
+            buyerNames.add(o.getBuyerName().toLowerCase());
+        }
+
+        int index = binarySearchStrings2(buyerNames, buyerName.toLowerCase());
+
+        if (index != -1) {
+            Order o = orders.get(index);
+            return "The order with buyer name " + o.getBuyerName() + " exists ;) \n" + "\n" + "Total amount: " + o.getTotal() + "\nOrder date: " + o.getOrderDate();
+        } else {
+            return "No order found with buyer name " + buyerName + ".";
+        }
+    }
+
+    public int binarySearchStrings2(ArrayList<String> list, String key) {
+        int low = 0;
+        int high = list.size() - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            String midVal = list.get(mid);
+            int cmp = midVal.compareTo(key);
+            if (cmp < 0) {
+                low = mid + 1;
+            } else if (cmp > 0) {
+                high = mid - 1;
+            } else {
+                return mid; // key found
+            }
+        }
+        return -1; // key not found
+    }
+
 
     //** */
     public void readData() {

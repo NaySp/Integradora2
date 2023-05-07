@@ -37,7 +37,7 @@ public class ProductFinderTest {
         productFinder.rProduct("Product1", "Description1", 10.0, "Category1", 5);
         productFinder.rProduct("Product2", "Description2", 15.0, "Category2", 10);
         String productName = "Product3";
-        String expected = "The product Product3 doesn't exist :c  ";
+        String expected = "The product Product3 doesn't exist :c";
 
         // Act
         String result = productFinder.validateProductByName(productName);
