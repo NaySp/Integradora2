@@ -22,7 +22,7 @@ public class ProductFinderTest {
         productFinder.rProduct("Product1", "Description1", 10.0, "Category1", 5);
         productFinder.rProduct("Product2", "Description2", 15.0, "Category2", 10);
         String productName = "Product1";
-        String expected = "The product Product1 exits ;) \nThere are: 5 units \nBelongs to the category: Category1\nFor onlyyy: 10.0";
+        String expected = "The product Product1 exists ;) \nThere are: 5 units \nBelongs to the category: Category1\nFor onlyyy: 10.0";
 
         // Act
         String result = productFinder.validateProductByName(productName);
