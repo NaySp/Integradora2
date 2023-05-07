@@ -48,6 +48,8 @@ public class Main {
                 "2. Create order\n" +
                 "3. Find a product\n" +
                 "4. Find order \n" +
+                "5. Search by numeric range\n" +
+                "6. Search by String range\n" +
                 "0. Salir");
         System.out.print("option -> ");
 
@@ -76,6 +78,13 @@ public class Main {
                 break;
 
             case 4:
+
+
+                break;
+
+            case 5:
+                searchByRange();
+
 
                 break;
 
@@ -113,7 +122,7 @@ public class Main {
         return option;
     }
 
-    public void addProduct(){
+    public void addProduct() {
         int numSales = 0;
 
         boolean datosCorrectos = false;
@@ -130,7 +139,7 @@ public class Main {
             System.out.println("Type the quantity of this product: ");
             numSales = validateIntegerInput();
 
-            if (name.isEmpty() || productName.isEmpty() ) {
+            if (name.isEmpty() || productName.isEmpty()) {
                 System.out.println("You must enter a value for all fields. Please try again.");
             } else if (price <= 0 || numSales <= 0) {
                 System.out.println("Price and quantity must be greater than zero. Please try again.");
@@ -146,9 +155,9 @@ public class Main {
                         "8. Juguetes y juegos \n");
                 System.out.print("Option -> ");
                 int category = reader.nextInt();
-                if(category < 0 && category > 9){
+                if (category < 0 && category > 9) {
                     System.out.println("Choose a valid category");
-                }else {
+                } else {
                     switch (category) {
 
                         case 1://Libros
@@ -234,43 +243,82 @@ public class Main {
         System.out.print("-> option: ");
         int opt = validateIntegerInput();
 
-        switch(opt){
+        switch (opt) {
 
             case 1:
                 System.out.println("Type the name of the product u r looking for: ");
                 String productName = reader.next();
                 System.out.println(controller.validateProductByName(productName));
-            break;
+                break;
 
             case 2:
                 System.out.println("Type the price at which you would like to find a product");
                 double price = validateDouble();
                 System.out.println(controller.validateProductByPrice(price));
-            break;
+                break;
 
             case 3:
                 System.out.println("Type the category u r looking for: ");
                 String category = reader.next();
                 System.out.println(controller.validateProductByCategory(category));
-            break;
+                break;
 
             case 4:
                 System.out.println("Enter the number of units for which you want to search for a product");
                 int timeSold = validateIntegerInput();
                 System.out.println(controller.validateProductByTimePurchased(timeSold));
-            break;
-
-            case 0: System.out.println("Exit");
                 break;
 
-            default: System.out.println("Invalid Option, try again :c ");
+            case 0:
+                System.out.println("Exit");
+                break;
+
+            default:
+                System.out.println("Invalid Option, try again :c ");
 
         }
     }
 
+    public void searchByRange() {
+
+        int opt2 = 0;
+        int opt = 0;
+
+        System.out.println("Enter the type of numeric attribute you wish to search for, such as: \n1. Price \n2. Quantity \n3. Number of times purchased. \n0. Exit.");
+        System.out.print("-> option: ");
+        opt = validateIntegerInput();
+
+        switch (opt) {
+
+            case 1:
+                System.out.println("Type the minimum price ;) ");
+                double minValue = validateDouble();
+                System.out.println("Type the maximummm price ;)) ");
+                double maxValue = validateDouble();
+
+                System.out.println("Finally type 1 if you want to see it in ascending order, 2 if descending.");
+                opt2 = validateIntegerInput();
+
+                controller.searchByPriceRange(minValue, maxValue, opt2);
 
 
+                break;
 
+            case 2:
+                System.out.println("Type the minimum quantity ;) ");
+                int minQuantity = validateIntegerInput();
+                System.out.println("Type the maximummm quantity ;)) ");
+                int maxQuantity = validateIntegerInput();
+
+                System.out.println("Finally type 1 if you want to see it in ascending order, 2 if descending.");
+                opt2 = validateIntegerInput();
+
+                controller.searchByQuantityRange(minQuantity, maxQuantity, opt2);
+
+
+                break;
+        }
+    }
 
 
 }
