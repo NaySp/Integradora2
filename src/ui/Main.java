@@ -194,7 +194,7 @@ public class Main {
 
     }
 
-
+   /*
     public void registerOrder() {
         List<Product> products = new ArrayList<>();
         System.out.println("Type your name: ");

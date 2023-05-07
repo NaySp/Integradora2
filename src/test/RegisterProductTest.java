@@ -8,10 +8,12 @@ public class RegisterProductTest {
 
     private Controller productRegistration;
 
-    @Before
-    public void setUp() {
+
+    public void setUp1() {
         productRegistration = new Controller();
     }
+
+
 
     @Test
     public void testRegisterProduct() {

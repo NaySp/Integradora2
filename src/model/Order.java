@@ -2,8 +2,6 @@ package model;
 import java.time.LocalTime;
 import java.util.List;
 
-import java.time.LocalDate;
-import java.util.List;
 
 
 public class Order {
