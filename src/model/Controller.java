@@ -11,86 +11,85 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Controller {
-    
+
     private List<Product> productList;
     private List<Order> orders;
 
 
-
-    public Controller(){
+    public Controller() {
         this.productList = new ArrayList<Product>();
         orders = new ArrayList<>();
     }
 
-    public void rProduct(String name, String description, double price, String category, int numSales){
-        try{
+    public void rProduct(String name, String description, double price, String category, int numSales) {
+        try {
             registerProduct(name, description, price, category, numSales);
-        }catch(EqualProductException ep){
+        } catch (EqualProductException ep) {
             ep.getMsg();
             ep.getStackTrace();
         }
     }
 
-    private void registerProduct(String name, String description, double price, String category, int numSales) throws EqualProductException{
-            for (Product p : productList) {
-                if (p.getName().equals(name)) {
-                    // Esto debería ser una excepción propia: sameProductException
-                    throw new EqualProductException("A product with the same name already exists.");
-                }
+    private void registerProduct(String name, String description, double price, String category, int numSales) throws EqualProductException {
+        for (Product p : productList) {
+            if (p.getName().equals(name)) {
+                // Esto debería ser una excepción propia: sameProductException
+                throw new EqualProductException("A product with the same name already exists.");
             }
-            // Create a new Product object and add it to the list
-            Product newProduct = new Product(name, description, price, category, numSales);
-            productList.add(newProduct);
-            // nicolas dice que no imprimas nada en el modelo ...
-            System.out.println("Product registered successfully.");
+        }
+        // Create a new Product object and add it to the list
+        Product newProduct = new Product(name, description, price, category, numSales);
+        productList.add(newProduct);
+        // nicolas dice que no imprimas nada en el modelo ...
+        System.out.println("Product registered successfully.");
 
     }
 
-    public void rOrder(String buyerName, List<Product> products, int quantity, int increaseAmount){
-        try{
-            registerOrder(buyerName, products,quantity,increaseAmount);
-        }catch(InvalidNameException ie){
+    public void rOrder(String buyerName, List<Product> products, int quantity, int increaseAmount) {
+        try {
+            registerOrder(buyerName, products, quantity, increaseAmount);
+        } catch (InvalidNameException ie) {
             ie.getMsg();
             ie.getStackTrace();
         }
     }
 
-    private void registerOrder(String buyerName, List<Product> products, int quantity,int increaseAmount) throws InvalidNameException {
+    private void registerOrder(String buyerName, List<Product> products, int quantity, int increaseAmount) throws InvalidNameException {
 
 
-            for (Product p : products) {
-                boolean validName = false;
-                for (Product inventoryProduct : productList) {
-                    if (inventoryProduct.getName().equals(p.getName())) {
-                        validName = true;
-                        break;
-                    }
-                }
-
-                }
-
-
-            // Calculate the total price of the order and update the inventory
-            double totalPrice = 0;
-            for (Product p : products) {
-                for (Product inventoryProduct : productList) {
-                    if (inventoryProduct.getName().equals(p.getName())) {
-                        totalPrice += p.getNumSales() * inventoryProduct.getPrice();
-                        int decreaseAmount = quantity - increaseAmount;
-                        try {
-                            p.decreaseAmount(decreaseAmount);// Decrease the quantity of the product in inventory
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                        break;
-                    }
+        for (Product p : products) {
+            boolean validName = false;
+            for (Product inventoryProduct : productList) {
+                if (inventoryProduct.getName().equals(p.getName())) {
+                    validName = true;
+                    break;
                 }
             }
 
-            // Create a new Order object and add it to the list of orders
-            Order newOrder = new Order(buyerName, products,quantity, totalPrice, LocalDate.now().toString());
-            orders.add(newOrder);
-            System.out.println("Order registered successfully.");
+        }
+
+
+        // Calculate the total price of the order and update the inventory
+        double totalPrice = 0;
+        for (Product p : products) {
+            for (Product inventoryProduct : productList) {
+                if (inventoryProduct.getName().equals(p.getName())) {
+                    totalPrice += p.getNumSales() * inventoryProduct.getPrice();
+                    int decreaseAmount = quantity - increaseAmount;
+                    try {
+                        p.decreaseAmount(decreaseAmount);// Decrease the quantity of the product in inventory
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                }
+            }
+        }
+
+        // Create a new Order object and add it to the list of orders
+        Order newOrder = new Order(buyerName, products, quantity, totalPrice, LocalDate.now().toString());
+        orders.add(newOrder);
+        System.out.println("Order registered successfully.");
 
     }
 
@@ -117,7 +116,6 @@ public class Controller {
     }
 
 
-
     private int binarySearchStrings(ArrayList<String> arr, String goal) {
         int left = 0;
         int right = arr.size() - 1;
@@ -137,7 +135,6 @@ public class Controller {
 
         return -1;
     }
-
 
 
     public String validateProductByPrice(double price) {
@@ -173,7 +170,6 @@ public class Controller {
                 }
             }
         }
-
         if (productNames.isEmpty()) {
             return "There aren't products by " + price;
         } else {
@@ -182,27 +178,23 @@ public class Controller {
     }
 
 
-    static int binarySearchDouble(ArrayList<Double> arr, double goal){
+    static int binarySearchDouble(ArrayList<Double> arr, double goal) {
         int left = 0;
         int right = arr.size() - 1;
 
-        while(left <= right){
-            int mid = (right + left)/2;
-            if(goal < arr.get(mid)){
+        while (left <= right) {
+            int mid = (right + left) / 2;
+            if (goal < arr.get(mid)) {
                 right = mid - 1;
-            }
-            else if(goal > arr.get(mid)){
+            } else if (goal > arr.get(mid)) {
                 left = mid + 1;
-            }
-            else {
+            } else {
                 return mid;
             }
         }
 
         return -1;
     }
-
-
 
 
     public String validateProductByCategory(String category) {
@@ -233,7 +225,6 @@ public class Controller {
     }
 
 
-
     static int binarySearch(List<Product> arr, String goal) {
         int left = 0; // obtenemos una referencia al puntero inicial
         int right = arr.size() - 1; // obtenemos una referencia al puntero final
@@ -257,8 +248,6 @@ public class Controller {
         // si no retornamos -1
         return -1;
     }
-
-
 
 
     public String validateProductByTimePurchased(int timeSold) {
@@ -317,16 +306,16 @@ public class Controller {
         Gson gson = new Gson();
 
         File projectDir = new File(System.getProperty("user.dir"));
-        File dataDirectory = new File(projectDir+"/data");
-        File products = new File(projectDir+"/data/products.json");
-        File orders = new File(projectDir+"/data/orders.json");
+        File dataDirectory = new File(projectDir + "/data");
+        File products = new File(projectDir + "/data/products.json");
+        File orders = new File(projectDir + "/data/orders.json");
 
         if (!dataDirectory.exists()) {
             dataDirectory.mkdirs();
             return;
         }
 
-        if ( !products.exists() || !orders.exists() ) return;
+        if (!products.exists() || !orders.exists()) return;
 
         try {
             FileInputStream pro = new FileInputStream(products);
@@ -340,7 +329,7 @@ public class Controller {
                 json += line;
             }
             // Deserializa el contenido JSON
-            Product [] jsonProducts = gson.fromJson(json, Product[].class);
+            Product[] jsonProducts = gson.fromJson(json, Product[].class);
             this.productList.addAll(Arrays.asList(jsonProducts));
 
 
@@ -363,9 +352,9 @@ public class Controller {
         Gson gson = new Gson();
 
         File projectDir = new File(System.getProperty("user.dir"));
-        File dataDirectory = new File(projectDir+"/data");
-        File productsFile = new File(projectDir+"/data/products.json");
-        File ordersFile = new File(projectDir+"/data/orders.json");
+        File dataDirectory = new File(projectDir + "/data");
+        File productsFile = new File(projectDir + "/data/products.json");
+        File ordersFile = new File(projectDir + "/data/orders.json");
 
         if (!dataDirectory.exists()) {
             dataDirectory.mkdirs();
@@ -387,6 +376,67 @@ public class Controller {
 
         return msj;
     }
+
+    //** */
+    public void searchByPriceRange(double minValue, double maxValue, int opt2) {
+        List<Product> priceProducts = new ArrayList<>();
+
+        for (Product p : productList) {
+            double value = p.getPrice();
+            if (value >= minValue && value <= maxValue) {
+                priceProducts.add(p);
+            }
+        }
+
+        if (priceProducts.isEmpty()) {
+            System.out.println("There aren't products in that range :c");
+        } else {
+            if (opt2 == 1) {
+                priceProducts.sort(Comparator.comparingDouble(Product::getPrice)); // Orden ascendente
+            } else if (opt2 == 2) {
+                priceProducts.sort(Comparator.comparingDouble(Product::getPrice).reversed()); // Orden descendente
+            } else {
+                System.out.println("Invalid option. -.-");
+                return;
+            }
+
+            for (Product p : priceProducts) {
+                System.out.println(p.getName() + " and the price is: " + p.getPrice());
+            }
+        }
+    }
+
+    public void searchByQuantityRange(int minQuantity, int maxQuantity, int opt2) {
+
+        List<Product> quantityProducts = new ArrayList<>();
+
+        for (Product p : productList) {
+            double value = p.getNumSales();
+            if (value >= minQuantity && value <= maxQuantity) {
+                quantityProducts.add(p);
+            }
+        }
+
+        if (quantityProducts.isEmpty()) {
+            System.out.println("There aren't products in that range :c");
+
+        } else {
+            if (opt2 == 1) {
+                quantityProducts.sort(Comparator.comparingInt(Product::getNumSales)); // Orden ascendente
+            } else if (opt2 == 2) {
+                quantityProducts.sort(Comparator.comparingInt(Product::getNumSales).reversed()); // Orden descendente
+            } else {
+                System.out.println("Invalid option. -.-");
+                return;
+            }
+
+            for (Product p : quantityProducts) {
+                System.out.println(p.getName() + " and the quantity is: " + p.getNumSales());
+            }
+        }
+    }
+
+
 
 
     public List<Product> getProductList() {
