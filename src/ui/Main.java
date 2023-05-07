@@ -1,7 +1,11 @@
 package ui;
 
 import model.Controller;
+import model.Product;
+
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -190,7 +194,7 @@ public class Main {
 
     }
 
-    /*
+
     public void registerOrder() {
         List<Product> products = new ArrayList<>();
         System.out.println("Type your name: ");

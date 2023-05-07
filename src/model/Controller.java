@@ -70,7 +70,8 @@ public class Controller {
                 for (Product inventoryProduct : productList) {
                     if (inventoryProduct.getName().equals(p.getName())) {
                         totalPrice += p.getNumSales() * inventoryProduct.getPrice();
-                        inventoryProduct.decreaseAmount(p.getNumSales());// Decrease the quantity of the product in inventory
+                        int decreaseAmount = quantity - increaseAmount;
+                        p.decreaseAmount(decreaseAmount);// Decrease the quantity of the product in inventory
                         break;
                     }
                 }
