@@ -64,7 +64,7 @@ public class Main {
                 break;
 
             case 2:
-                //* registerOrder();
+                registerOrder();
 
 
                 break;
@@ -194,18 +194,20 @@ public class Main {
 
     }
 
-   /*
+
     public void registerOrder() {
         List<Product> products = new ArrayList<>();
         System.out.println("Type your name: ");
         String buyerName = reader.next();
 
         boolean addingProducts = true;
-        while(addingProducts){
+        int quantity = 0;
+        int increaseAmount = 0;
+        while (addingProducts) {
             System.out.println("Type the product name you want to add: ");
             String productName = reader.next();
             System.out.println("Type how much of this product you want: ");
-            int quantity = validateIntegerInput();
+            quantity = validateIntegerInput();
 
             Product newProduct = new Product(productName, "", 0.0, "", quantity);
             products.add(newProduct);
@@ -213,13 +215,13 @@ public class Main {
             System.out.println("Do you want to add another product? \n" +
                     "1. Yes" +
                     "2. No");
-            int input = reader.nextInt();
-            if(input == 2){
+            increaseAmount = reader.nextInt();
+            if (increaseAmount == 2) {
                 addingProducts = false;
             }
         }
 
-        controller.registerOrder(buyerName, products);
+        controller.registerOrder(buyerName, products, quantity, increaseAmount);
     }
 
     public void findProduct() {
@@ -260,7 +262,7 @@ public class Main {
             default: System.out.println("Invalid Option, try again :c ");
 
         }
-    }*/
+    }
 
 
 

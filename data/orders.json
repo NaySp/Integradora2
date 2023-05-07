@@ -1,1 +1,1 @@
-[]
+[{"buyerName":"valentina","products":[{"name":"heladeria","description":"","price":0.0,"category":"","numSales":2}],"quantity":3,"totalPrice":90.0,"orderDate":"13:56:42.836457200"},{"buyerName":"tapi","products":[{"name":"gafas","description":"","price":0.0,"category":"","numSales":1},{"name":"heladeria","description":"","price":0.0,"category":"","numSales":2}],"quantity":2,"totalPrice":85.0,"orderDate":"13:58:14.456275500"}]
