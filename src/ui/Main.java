@@ -2,12 +2,10 @@ package ui;
 
 import com.google.gson.Gson;
 import model.Controller;
+import model.Product;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main{
 
@@ -206,19 +204,32 @@ public class Main{
     }
 
     public void registerOrder(){
-
-        System.out.println("Type ur name ;) ");
+        List<Product> products = new ArrayList<>();
+        System.out.println("Type your name: ");
         String buyerName = reader.next();
-        System.out.println("Type the product u wanna add: ");
-        String productName = reader.next();
-        System.out.println("Finally, type how much of this product u want: ");
-        int quantity = validateIntegerInput();
 
-        controller.registerOrder(buyerName, Arrays.asList(productName), quantity);
+        boolean addingProducts = true;
+        while(addingProducts){
+            System.out.println("Type the product name you want to add: ");
+            String productName = reader.next();
+            System.out.println("Type how much of this product you want: ");
+            int quantity = validateIntegerInput();
 
-        //** Arrays.asList() es una forma rápida de
-        // inicializar una lista en Java utilizando un conjunto fijo de elementos.//
+            Product newProduct = new Product(productName, "", 0.0, "", quantity);
+            products.add(newProduct);
+
+            System.out.println("Do you want to add another product? \n" +
+                    "1. Yes" +
+                    "2. No");
+            int input = reader.nextInt();
+            if(input == 2){
+                addingProducts = false;
+            }
+        }
+
+        controller.registerOrder(buyerName, products);
     }
+
 
     public void findProduct(){
 

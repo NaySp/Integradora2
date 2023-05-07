@@ -1,7 +1,9 @@
 package model;
 import exception.EqualProductException;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Controller {
@@ -27,7 +29,6 @@ public class Controller {
     private void registerProduct(String name, String description, double price, String category, int numSales) throws EqualProductException{
             for (Product p : productList) {
                 if (p.getName().equals(name)) {
-                    // Esto debería ser una excepción propia: sameProductException
                     throw new EqualProductException("A product with the same name already exists.");
                 }
             }
@@ -39,38 +40,37 @@ public class Controller {
 
     }
 
-    public void registerOrder(String buyerName, List<String> listProduct, int amount) {
+    public void registerOrder(String buyerName, List<Product> products) {
 
         try {
             // Check if any of the product names are invalid
-            for (String name : listProduct) {
+            for (Product p : products) {
                 boolean validName = false;
-                for (Product p : productList) {
-                    if (p.getName().equals(name)) {
+                for (Product inventoryProduct : productList) {
+                    if (inventoryProduct.getName().equals(p.getName())) {
                         validName = true;
                         break;
                     }
                 }
                 if (!validName) {
-                    throw new Exception("Invalid product name: " + name);
+                    throw new Exception("Invalid product name: " + p.getName());
                 }
             }
 
             // Calculate the total price of the order and update the inventory
-
             double totalPrice = 0;
-            for (Product p : productList) {
-                for (String name : listProduct) {
-                    if (p.getName().equals(name)) {
-                        totalPrice += p.getPrice();
-                        p.decreaseAmount(amount);// Decrease the quantity of the product in inventory
+            for (Product p : products) {
+                for (Product inventoryProduct : productList) {
+                    if (inventoryProduct.getName().equals(p.getName())) {
+                        totalPrice += p.getNumSales() * inventoryProduct.getPrice();
+                        inventoryProduct.decreaseAmount(p.getNumSales());// Decrease the quantity of the product in inventory
                         break;
                     }
                 }
             }
 
             // Create a new Order object and add it to the list of orders
-            Order newOrder = new Order(buyerName, productList, amount);
+            Order newOrder = new Order(buyerName, products, totalPrice, LocalDate.now());
             orders.add(newOrder);
             System.out.println("Order registered successfully.");
 
@@ -78,6 +78,12 @@ public class Controller {
             System.out.println("Error registering order: " + e.getMessage());
         }
     }
+
+
+    public List<Order> getOrders() {
+        return Collections.unmodifiableList(orders);
+    }
+
 
     public String validateProductByName(String productName) {
 

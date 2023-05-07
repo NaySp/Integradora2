@@ -4,63 +4,35 @@ import java.util.List;
 import java.time.LocalTime;
 import java.util.Locale;
 
-public class Order {
+import java.time.LocalDate;
+import java.util.List;
 
+public class Order {
     private String buyerName;
-    private List<Product> productList;
-    private int quantity;
-    private double total;
-    private LocalTime date;
-    
-    public Order(String buyerName, List<Product> productList, int quantity) {
+    private List<Product> products;
+    private double totalPrice;
+    private LocalDate orderDate;
+
+    public Order(String buyerName, List<Product> products, double totalPrice, LocalDate orderDate) {
         this.buyerName = buyerName;
-        this.productList = productList;
-        this.quantity = quantity;
-        this.total = total;
-        date = LocalTime.now();
+        this.products = products;
+        this.totalPrice = totalPrice;
+        this.orderDate = orderDate;
     }
 
-
-
-    // getters and setters for all attributes
     public String getBuyerName() {
         return buyerName;
     }
-    
-    public void setBuyerName(String buyerName) {
-        this.buyerName = buyerName;
-    }
-    
-    public int getQuantity() {
-        return quantity;
-    }
-    
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-    
-    public double getTotal() {
-        return total;
-    }
-    
-    public void setTotal(double total) {
-        this.total = total;
+
+    public List<Product> getProducts() {
+        return products;
     }
 
-
-    public LocalTime getDate() {
-        return date;
+    public double getTotalPrice() {
+        return totalPrice;
     }
 
-    public void setDate(LocalTime date) {
-        this.date = date;
-    }
-
-    public List<Product> getProductList() {
-        return productList;
-    }
-
-    public void setProductList(List<Product> productList) {
-        this.productList = productList;
+    public LocalDate getOrderDate() {
+        return orderDate;
     }
 }
