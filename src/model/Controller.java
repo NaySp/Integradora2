@@ -56,7 +56,7 @@ public class Controller {
         }
     }
 
-    private void registerOrder(String buyerName, List<Product> products, int quantity, int increaseAmount) throws InvalidNameException {
+    public void registerOrder(String buyerName, List<Product> products, int quantity, int increaseAmount) throws InvalidNameException {
 
 
         for (Product p : products) {
@@ -620,8 +620,9 @@ public class Controller {
 
 
 
-
-
+    public List<Order> getOrders() {
+        return orders;
+    }
 
     public List<Product> getProductList() {
         return productList;
