@@ -15,10 +15,15 @@ public class Product {
         this.category = category;
         this.numSales = numSales;
     }
-    
+
+    public void decreaseAmount(int amount) throws Exception {
+        if (amount > numSales) {
+            throw new Exception("Not enough inventory for " + name);
+        }
+        numSales -= amount;
+    }
 
 
-    
     // getters and setters for all attributes
     public String getName() {
         return name;

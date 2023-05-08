@@ -1,63 +1,66 @@
 package model;
-import java.util.Date;
+import java.time.LocalTime;
+import java.util.List;
+
 
 
 public class Order {
 
     private String buyerName;
-    private String productName;
+    private List<Product> products;
     private int quantity;
-    private double total;
-    private Date date;
-    
-    public Order(String buyerName, String productName, int quantity, double total, Date date) {
+    private double totalPrice;
+    private String orderDate;
+
+    public Order(String buyerName, List<Product> products, int quantity, double totalPrice, String orderDate) {
         this.buyerName = buyerName;
-        this.productName = productName;
+        this.products = products;
         this.quantity = quantity;
-        this.total = total;
-        this.date = date;
+        this.totalPrice = totalPrice;
+        this.orderDate = LocalTime.now().toString();
     }
 
-    
-    
+
+
     // getters and setters for all attributes
     public String getBuyerName() {
         return buyerName;
     }
-    
+
     public void setBuyerName(String buyerName) {
         this.buyerName = buyerName;
     }
-    
-    public String getProductName() {
-        return productName;
+
+    public List<Product> getProducts() {
+        return products;
     }
-    
-    public void setProductName(String productName) {
-        this.productName = productName;
+
+    public void setProductName(List<Product> products) {
+        this.products = products;
     }
-    
+
     public int getQuantity() {
         return quantity;
     }
-    
+
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-    
+
     public double getTotal() {
-        return total;
+        return totalPrice;
     }
-    
+
     public void setTotal(double total) {
-        this.total = total;
+        this.totalPrice = total;
     }
-    
-    public Date getDate() {
-        return date;
+
+    public String getOrderDate() {
+        return orderDate;
     }
-    
-    public void setDate(Date date) {
-        this.date = date;
+
+
+    public void setOrderDate(String orderDate) {
+        this.orderDate = orderDate;
     }
 }
