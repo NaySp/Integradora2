@@ -570,6 +570,25 @@ public class Controller {
         }
     }
 
+    public void incrementProductQuantity(String productName, int quantity) {
+        // Buscar el producto por nombre
+        Product product = null;
+        for (Product p : productList) {
+            if (p.getName().equals(productName)) {
+                product = p;
+                break;
+            }
+        }
+        // Si el producto existe, incrementar su cantidad
+        if (product != null) {
+            product.setNumSales(product.getNumSales() + quantity);
+            System.out.println("Product quantity updated successfully.");
+        } else {
+            System.out.println("Product not found.");
+        }
+    }
+
+
 
 
 
