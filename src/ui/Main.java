@@ -301,7 +301,7 @@ public class Main {
 
     public void findOrder() {
 
-        System.out.println("Type by which characteristic you want to search for a order: \n1. Buyer Name  \n2. Total Price  \n3. Purchase Date   \n0. Exit.");
+        System.out.println("Type by which characteristic you want to search for a order: \n1. Buyer Name  \n2. Total Price  \n0. Exit.");
         System.out.print("-> option: ");
         int opt = validateIntegerInput();
 
@@ -319,12 +319,12 @@ public class Main {
                 System.out.println(controller.validateOrderByTotal(totalPrice));
                 break;
 
-            case 3:
+           /* case 3:
                 System.out.println("Type the date of the order ");
                 String date = reader.next();
                 System.out.println(controller.validateOrderByDate(LocalDate.parse(date)));
                 break;
-
+            */
 
 
             case 0:
