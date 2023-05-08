@@ -1,4 +1,5 @@
 package model;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -30,7 +31,8 @@ public class Controller {
         }
     }
 
-    private void registerProduct(String name, String description, double price, String category, int numSales) throws EqualProductException {
+    private String  registerProduct(String name, String description, double price, String category, int numSales) throws EqualProductException {
+        String msj;
         for (Product p : productList) {
             if (p.getName().equals(name)) {
                 // Esto debería ser una excepción propia: sameProductException
@@ -40,8 +42,8 @@ public class Controller {
         // Create a new Product object and add it to the list
         Product newProduct = new Product(name, description, price, category, numSales);
         productList.add(newProduct);
-        // nicolas dice que no imprimas nada en el modelo ...
-        System.out.println("Product registered successfully.");
+
+        return msj = "Product registered successfully.";
 
     }
 
