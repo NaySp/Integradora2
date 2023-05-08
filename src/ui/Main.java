@@ -49,7 +49,6 @@ public class Main {
                 "3. Find a product\n" +
                 "4. Find order \n" +
                 "5. Search by numeric range\n" +
-                "6. Search by String range\n" +
                 "0. Salir");
         System.out.print("option -> ");
 
@@ -298,7 +297,7 @@ public class Main {
         int opt2 = 0;
         int opt = 0;
 
-        System.out.println("Enter the type of numeric attribute you wish to search for, such as: \n1. Price \n2. Quantity \n3. Number of times purchased. \n0. Exit.");
+        System.out.println("Enter the type of numeric attribute you wish to search for, such as: \n1. Price \n2. Quantity \n0. Exit.");
         System.out.print("-> option: ");
         opt = validateIntegerInput();
 
@@ -331,6 +330,9 @@ public class Main {
 
 
                 break;
+
+            default:
+                System.out.println("invalid optionnnn");
         }
     }
 
