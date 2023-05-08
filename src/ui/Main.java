@@ -149,7 +149,7 @@ public class Main {
             if (name.isEmpty() || productName.isEmpty()) {
                 System.out.println("You must enter a value for all fields. Please try again.");
             } else if (price <= 0 || numSales <= 0) {
-                System.out.println("Price and quantity must be greater than zero. Please try again.");
+                System.out.println("Price and quantity must be greater than zero. Please try again. :(");
             } else {
                 System.out.println("Choose a category: \n" +
                         "1. Libros \n" +
