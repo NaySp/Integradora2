@@ -1,4 +1,5 @@
 # Integradora2
+
 Tarea integradora 2
 
 No estan separados equitemporalemente, y tampoco son 10. 
@@ -24,4 +25,8 @@ Iteración 3 - commit c3555a5
 - Completitud = 2,3
 
 
+
+Nayeli Suarez A00382425 <br>
+Isabella Ocampo Soto A00382369 <br>
+Valentina Gonzalez Tapiero A00394152 <br>
 
