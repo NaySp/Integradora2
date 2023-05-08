@@ -590,6 +590,35 @@ public class Controller {
         }
     }
 
+    public void searchAndPrintByNameRange(String startPrefix, String endPrefix, int opt2) {
+        List<Product> nameProducts = new ArrayList<>();
+
+        for (Product p : productList) {
+            String name = p.getName();
+            if (name.compareToIgnoreCase(startPrefix) >= 0 && name.compareToIgnoreCase(endPrefix) <= 0) {
+                nameProducts.add(p);
+            }
+        }
+
+        if (nameProducts.isEmpty()) {
+            System.out.println("There aren't products in that range :c");
+        } else {
+            if (opt2 == 1) {
+                nameProducts.sort(Comparator.comparing(Product::getName)); // Orden ascendente
+            } else if (opt2 == 2) {
+                nameProducts.sort(Comparator.comparing(Product::getName).reversed()); // Orden descendente
+            } else {
+                System.out.println("Invalid option. -.-");
+                return;
+            }
+
+            for (Product p : nameProducts) {
+                System.out.println(p.getName() + " and the quantity is: " + p.getNumSales());
+            }
+        }
+    }
+
+
 
 
 

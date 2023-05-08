@@ -50,6 +50,7 @@ public class Main {
                 "3. Find a product\n" +
                 "4. Find order \n" +
                 "5. Search by numeric range\n" +
+                "6. Search by String range\n" +
                 "0. Salir");
         System.out.print("option -> ");
 
@@ -85,6 +86,11 @@ public class Main {
             case 5:
                 searchByRange();
 
+
+                break;
+
+            case 6:
+                searchStringRange();
 
                 break;
 
@@ -375,5 +381,17 @@ public class Main {
         }
     }
 
+    public void searchStringRange(){
+
+        System.out.println("Type from which letter you want to search for a product ");
+        String letter = reader.next();
+        System.out.println("type up to which letter you want to search for a product");
+        String letter2 = reader.next();
+
+        System.out.println("Finally type 1 if you want to see it in ascending order, 2 if descending.");
+        int opt3 = validateIntegerInput();
+
+        controller.searchAndPrintByNameRange(letter, letter2, opt3);
+    }
 
 }
