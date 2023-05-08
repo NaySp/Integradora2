@@ -94,10 +94,6 @@ public class Controller {
     }
 
 
-    public List<Order> getOrders() {
-        return Collections.unmodifiableList(orders);
-    }
-
 
     public String validateProductByName(String productName) {
         ArrayList<String> productNames = new ArrayList<String>();
@@ -114,8 +110,6 @@ public class Controller {
             return "The product " + productName + " doesn't exist :c";
         }
     }
-
-
     private int binarySearchStrings(ArrayList<String> arr, String goal) {
         int left = 0;
         int right = arr.size() - 1;
@@ -176,8 +170,6 @@ public class Controller {
             return "The following products have the price of " + price + ": \n" + String.join("\n", productNames);
         }
     }
-
-
     static int binarySearchDouble(ArrayList<Double> arr, double goal) {
         int left = 0;
         int right = arr.size() - 1;
@@ -223,8 +215,6 @@ public class Controller {
             return "The following products belong to the category " + category + ":\n" + String.join("\n", productNames);
         }
     }
-
-
     static int binarySearch(List<Product> arr, String goal) {
         int left = 0; // obtenemos una referencia al puntero inicial
         int right = arr.size() - 1; // obtenemos una referencia al puntero final
@@ -278,8 +268,6 @@ public class Controller {
             return "The following products haven't been sold and " + timeSold + " units exists:\n" + String.join("\n", productNames);
         }
     }
-
-
     static int binarySearchDate(List<Product> productList, int goal) {
         int left = 0;
         int right = productList.size() - 1;
@@ -298,6 +286,7 @@ public class Controller {
         return -1;
     }
 
+
     public String validateOrderByBuyerName(String buyerName) {
         ArrayList<String> buyerNames = new ArrayList<String>();
         for (Order o : orders) {
@@ -313,7 +302,6 @@ public class Controller {
             return "No order found with buyer name " + buyerName + ".";
         }
     }
-
     public int binarySearchStrings2(ArrayList<String> list, String key) {
         int low = 0;
         int high = list.size() - 1;
@@ -331,6 +319,118 @@ public class Controller {
         }
         return -1; // key not found
     }
+
+
+    public String validateOrderByTotal(double totalAmount) {
+        List<String> orderBuyers = new ArrayList<>();
+
+        // Ordenamos la lista de órdenes por el total de la orden para usar búsqueda binaria
+        Collections.sort(orders, new Comparator<Order>() {
+            public int compare(Order o1, Order o2) {
+                return Double.compare(o1.getTotal(), o2.getTotal());
+            }
+        });
+
+        // Buscamos el total de la orden en la lista ordenada usando búsqueda binaria
+        int index = binarySearchDouble(orders.stream().map(Order::getTotal).collect(Collectors.toCollection(ArrayList::new)), totalAmount);
+        if (index != -1) {
+            // Recorremos las órdenes desde el índice encontrado hacia abajo
+            for (int i = index; i >= 0; i--) {
+                Order o = orders.get(i);
+                if (o.getTotal() == totalAmount) {
+                    orderBuyers.add(o.getBuyerName());
+                } else {
+                    break; // Salimos del loop si ya no encontramos más órdenes con ese total
+                }
+            }
+
+            // Recorremos las órdenes desde el índice encontrado hacia arriba
+            for (int i = index + 1; i < orders.size(); i++) {
+                Order o = orders.get(i);
+                if (o.getTotal() == totalAmount) {
+                    orderBuyers.add(o.getBuyerName());
+                } else {
+                    break; // Salimos del loop si ya no encontramos más órdenes con ese total
+                }
+            }
+        }
+        if (orderBuyers.isEmpty()) {
+            return "No orders found with total amount of " + totalAmount;
+        } else {
+            return "The following orders have a total amount of " + totalAmount + ": \n" + String.join("\n", orderBuyers);
+        }
+    }
+
+    public int binarySearchDouble2(ArrayList<Double> list, double key) {
+        int low = 0;
+        int high = list.size() - 1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            double midVal = list.get(mid);
+            int cmp = Double.compare(midVal, key);
+            if (cmp < 0) {
+                low = mid + 1;
+            } else if (cmp > 0) {
+                high = mid - 1;
+            } else {
+                return mid; // key found
+            }
+        }
+        return -1; // key not found
+    }
+
+    public String validateOrderByDate(LocalDate date) {
+        // Ordenamos la lista de órdenes por fecha de compra
+        Collections.sort(orders, Comparator.comparing(Order::getOrderDate));
+
+        List<String> orderIds = new ArrayList<>();
+
+        // Buscamos la fecha en la lista ordenada usando búsqueda binaria
+        int index = binarySearchOrderByDate(orders, date);
+
+        if (index == -1) {
+            return "There are no orders for the date " + date;
+        } else {
+            orderIds.add(orders.get(index).getBuyerName());
+
+            // Buscamos órdenes con la misma fecha de compra hacia la izquierda del índice encontrado
+            int i = index - 1;
+            while (i >= 0 && orders.get(i).getOrderDate().equals(date)) {
+                orderIds.add(orders.get(i).getBuyerName());
+                i--;
+            }
+
+            // Buscamos órdenes con la misma fecha de compra hacia la derecha del índice encontrado
+            i = index + 1;
+            while (i < orders.size() && orders.get(i).getOrderDate().equals(date)) {
+                orderIds.add(orders.get(i).getBuyerName());
+                i++;
+            }
+
+            return "The following orders were placed on " + date + ":\n" + String.join("\n", orderIds);
+        }
+    }
+
+    public static int binarySearchOrderByDate(List<Order> orderList, LocalDate purchaseDate) {
+        int left = 0;
+        int right = orderList.size() - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            LocalDate orderDate = LocalDate.parse(orderList.get(mid).getOrderDate());
+
+            if (orderDate.equals(purchaseDate)) {
+                return mid;
+            } else if (orderDate.isBefore(purchaseDate)) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return -1;
+    }
+
 
 
     //** */
