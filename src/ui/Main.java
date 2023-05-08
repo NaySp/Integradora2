@@ -3,6 +3,7 @@ package ui;
 import model.Controller;
 import model.Product;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -77,7 +78,7 @@ public class Main {
                 break;
 
             case 4:
-
+                findOrder();
 
                 break;
 
@@ -281,6 +282,44 @@ public class Main {
                 int timeSold = validateIntegerInput();
                 System.out.println(controller.validateProductByTimePurchased(timeSold));
                 break;
+
+            case 0:
+                System.out.println("Exit");
+                break;
+
+            default:
+                System.out.println("Invalid Option, try again :c ");
+
+        }
+    }
+
+    public void findOrder() {
+
+        System.out.println("Type by which characteristic you want to search for a order: \n1. Buyer Name  \n2. Total Price  \n3. Purchase Date   \n0. Exit.");
+        System.out.print("-> option: ");
+        int opt = validateIntegerInput();
+
+        switch (opt) {
+
+            case 1:
+                System.out.println("Type the name of the person who made the order: ");
+                String nameBuyer = reader.next();
+                System.out.println(controller.validateOrderByBuyerName(nameBuyer));
+                break;
+
+            case 2:
+                System.out.println("Type the total price of the order you would like to search");
+                double totalPrice = validateDouble();
+                System.out.println(controller.validateOrderByTotal(totalPrice));
+                break;
+
+            case 3:
+                System.out.println("Type the date of the order ");
+                String date = reader.next();
+                System.out.println(controller.validateOrderByDate(LocalDate.parse(date)));
+                break;
+
+
 
             case 0:
                 System.out.println("Exit");
