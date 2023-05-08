@@ -201,17 +201,20 @@ public class Main {
 
                             break;
                     }
+                    System.out.println("Do you want to add more quantity to the product? (y/n)");
+                    String option = reader.next();
+                    if (option.equalsIgnoreCase("y")) {
+                        System.out.println("Type the quantity to add:");
+                        int quantityToAdd = validateIntegerInput();
+                        controller.incrementProductQuantity(name, quantityToAdd);
+                    }else{
+                        controller.rProduct(name,productName,price, String.valueOf(category), numSales);
+                        break;
+                    }
                 }
+
             }
-            System.out.println("Do you want to add more quantity to the product? (y/n)");
-            String option = reader.next();
-            if (option.equalsIgnoreCase("y")) {
-                System.out.println("Type the quantity to add:");
-                int quantityToAdd = validateIntegerInput();
-                controller.incrementProductQuantity(name, quantityToAdd);
-            }else{
-                break;
-            }
+
 
         } while (!datosCorrectos);
 
